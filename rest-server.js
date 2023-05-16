@@ -8,7 +8,8 @@ import date from "date-and-time";
 dotenv.config();
 
 const app = express();
-app.use(bodyParser.json());
+app.use(bodyParser.json()); // support json encoded bodies
+app.use(express.urlencoded({ extended: true })); // support encoded bodies
 
 const server = http.createServer(app);
 const logSuffix = date.format(new Date(), "YYYY-MM-DD-HH-mm-ss");
@@ -16,6 +17,7 @@ const logSuffix = date.format(new Date(), "YYYY-MM-DD-HH-mm-ss");
 app.all("*", (req, res) => {
   const message = {
     url: req.url,
+    method: req.method,
     headers: req.headers,
     body: req.body,
   };
